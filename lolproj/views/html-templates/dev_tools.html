@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lol Stat Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body style ='background-color:#091428;'>
+  <div class="container-fluid mt-4">
+	<h1 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> WELCOME TO LOLSV </h1>
+
+    <div class="card" style="background-color: #0A1428; border-top-color: #1E282D;">
+      <div class="card-body">
+      
+        <a href="front.html" type="button" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%">
+            Home
+        </a>
+        <!-- Button to Load Champions -->
+        <a class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150% ">
+            Champions
+        </a>
+        <a href="misc.html" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%">
+            Misc
+        </a>
+        <a href="dev_tools.html" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%; float: right;">
+            Dev Tools
+        </a>
+      </div>
+  
+    </div>
+    <div style = "background-color: white; width: 100%; height: 650px; margin: auto">
+        <div class="form-inline" style = "background-color: blue; width: 100%; height: 50%; flex-direction: row;">
+          <div style = "background-color: #091428;; width: 425px; height: 200px; margin-left: 20%; border-color: hsl(38, 50%, 31%); border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center; margin-top: 10px'> Add Match </h3>
+            <button type="button" class="btn-lg btn-info" style="margin-top: 5%; margin-left: 35%" id="loadMatchAdd" data-toggle="modal" data-target="#viewMatchAddModel">
+              Add Match
+            </button>
+          </div>
+
+          <div style = "background-color: #091428; width: 425px; height: 200px; margin-left: 20%; border-color: #785A28; border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center; margin-top: 10px'> Update Match </h3>
+            <button type="button" class="btn-lg btn-info" style="margin-top: 5%; margin-left: 30%" id="loadMatchUpdate" data-toggle="modal" data-target="#viewMatchUpdateModel">
+              Update Match
+            </button>
+          </div>
+        </div>
+
+        <div class="form-inline" style = "background-color: green; width: 100%; height: 50%; flex-direction: row;">
+          <div style = "background-color: #091428;; width: 425px; height: 200px; margin-left: 20%; border-color: #785A28; border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center; margin-top: 10px'> Delete Match </h3>
+            <button type="button" class="btn-lg btn-info" style="margin-top: 5%; margin-left: 32%" id="loadMatchDelete" data-toggle="modal" data-target="#viewMatchDeleteModel">
+              Delete Match
+            </button>
+          </div>
+          <div style = "background-color: #091428; width: 425px; height: 200px; margin-left: 20%; border-color: #785A28; border-width: 10px; border-radius: 20px">
+
+          </div>
+        
+        </div>
+        
+        
+    </div>
+
+
+
+    <!-- Modal for Viewing AddMatch -->
+    <div class="modal fade" id="viewMatchAddModel" tabindex="-1" role="dialog" aria-labelledby="viewMatchAdd" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+          <div style ="margin-left: 10px">
+          <h3> Enter Game ID</h3>
+          <label for="GameID">Game ID</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="GameID" placeholder="Enter Your Game ID" name="GameID">
+          </div>
+          
+          <h3> Enter Blue Team Info</h3>
+          <label for="blueTeamTop">Blue Team's Top</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamTop" placeholder="Enter Player For Blue Team's Top" name="blueTeamTop">
+          </div>
+
+          <label for="blueTeamTopChampion">Blue Team's Top Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamTopChampion" placeholder="Enter Blue Team's Top Champion" name="blueTeamTopChampion">
+          </div>
+          
+          <label for="blueTeamMid">Blue Team's Mid</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamMid" placeholder="Enter Player For Blue Team's Middle" name="blueTeamMid">
+          </div>
+
+          <label for="blueTeamMidChampion">Blue Team's Mid Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamMidChampion" placeholder="Enter Blue Team's Middle Champion" name="blueTeamMidChampion">
+          </div>
+
+          <label for="blueTeamJungle">Blue Team's Jungler</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamJungle" placeholder="Enter Player For Blue Team's Jungler" name="blueTeamJungle">
+          </div>
+
+          <label for="blueTeamJungleChampion">Blue Team's Jungler Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamJungleChampion" placeholder="Enter Blue Team's Jungler Champion" name="blueTeamJungleChampion">
+          </div>
+
+          <label for="blueTeamADC">Blue Team's ADC</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamADC" placeholder="Enter Player For Blue Team's ADC" name="blueTeamADC">
+          </div>
+
+          <label for="blueTeamADCChampion">Blue Team's ADC Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamADCChampion" placeholder="Enter Blue Team's ADC Champion" name="blueTeamADCChampion">
+          </div>
+
+          <label for="blueTeamSupport">Blue Team's Support</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamSupport" placeholder="Enter Player For Blue Team's Support" name="blueTeamSupport">
+          </div>
+
+          <label for="blueTeamSupportChampion">Blue Team's Support Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="blueTeamSupportChampion" placeholder="Enter Blue Team's Support Champion" name="blueTeamSupportChampion">
+          </div>
+
+          <h3> Enter Red Team Info</h3>
+
+          <label for="redTeamTop">Red Team's Top</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamTop" placeholder="Enter Player For Red Team's Top" name="RedTeamTop">
+          </div>
+
+          <label for="redTeamTopChampion">Red Team's Top Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamTopChampion" placeholder="Enter Red Team's Top Champion" name="redTeamTopChampion">
+          </div>
+          
+          <label for="redTeamMid">Red Team's Mid</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamMid" placeholder="Enter Player For Red Team's Middle" name="redTeamMid">
+          </div>
+
+          <label for="redTeamMidChampion">Red Team's Mid Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamMidChampion" placeholder="Enter Red Team's Middle Champion" name="redTeamMidChampion">
+          </div>
+
+          <label for="redTeamJungle">Red Team's Jungler</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamJungle" placeholder="Enter Player For Red Team's Jungler" name="redTeamJungle">
+          </div>
+
+          <label for="redTeamJungleChampion">Red Team's Jungler Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamJungleChampion" placeholder="Enter Red Team's Jungler Champion" name="redTeamJungleChampion">
+          </div>
+
+          <label for="redTeamADC">Red Team's ADC</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamADC" placeholder="Enter Player For Red Team's ADC" name="redTeamADC">
+          </div>
+
+          <label for="redTeamADCChampion">Red Team's ADC Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamADCChampion" placeholder="Enter Red Team's ADC Champion" name="redTeamADCChampion">
+          </div>
+
+          <label for="redTeamSupport">Red Team's Support</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamSupport" placeholder="Enter Player For Red Team's Support" name="redTeamSupport">
+          </div>
+
+          <label for="redTeamSupportChampion">Red Team's Support Champion</label>
+          <div class="form-group">
+            <input type="text" class="form-control col-lg-9" id="redTeamSupportChampion" placeholder="Enter Red Team's Support Champion" name="redTeamSupportChampion">
+          </div>
+
+          <button type="submit" id ="loadChampBtn" class="btn btn-primary" style = "margin-bottom: 10px">Confirm Add Match</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Viewing UpdateMatch -->
+  <div class="modal fade" id="viewMatchUpdateModel" tabindex="-1" role="dialog" aria-labelledby="viewMatchUpdate" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div style ="margin-left: 10px">
+        <h3> Enter Game ID</h3>
+        <label for="GameID">Game ID</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="GameID" placeholder="Enter Your Game ID" name="GameID">
+        </div>
+        
+        <h3> Enter Blue Team Info</h3>
+        <label for="blueTeamTop">Blue Team's Top</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamTop" placeholder="Enter Player For Blue Team's Top" name="blueTeamTop">
+        </div>
+
+        <label for="blueTeamTopChampion">Blue Team's Top Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamTopChampion" placeholder="Enter Blue Team's Top Champion" name="blueTeamTopChampion">
+        </div>
+        
+        <label for="blueTeamMid">Blue Team's Mid</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamMid" placeholder="Enter Player For Blue Team's Middle" name="blueTeamMid">
+        </div>
+
+        <label for="blueTeamMidChampion">Blue Team's Mid Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamMidChampion" placeholder="Enter Blue Team's Middle Champion" name="blueTeamMidChampion">
+        </div>
+
+        <label for="blueTeamJungle">Blue Team's Jungler</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamJungle" placeholder="Enter Player For Blue Team's Jungler" name="blueTeamJungle">
+        </div>
+
+        <label for="blueTeamJungleChampion">Blue Team's Jungler Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamJungleChampion" placeholder="Enter Blue Team's Jungler Champion" name="blueTeamJungleChampion">
+        </div>
+
+        <label for="blueTeamADC">Blue Team's ADC</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamADC" placeholder="Enter Player For Blue Team's ADC" name="blueTeamADC">
+        </div>
+
+        <label for="blueTeamADCChampion">Blue Team's ADC Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamADCChampion" placeholder="Enter Blue Team's ADC Champion" name="blueTeamADCChampion">
+        </div>
+
+        <label for="blueTeamSupport">Blue Team's Support</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamSupport" placeholder="Enter Player For Blue Team's Support" name="blueTeamSupport">
+        </div>
+
+        <label for="blueTeamSupportChampion">Blue Team's Support Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="blueTeamSupportChampion" placeholder="Enter Blue Team's Support Champion" name="blueTeamSupportChampion">
+        </div>
+
+        <h3> Enter Red Team Info</h3>
+
+        <label for="redTeamTop">Red Team's Top</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamTop" placeholder="Enter Player For Red Team's Top" name="RedTeamTop">
+        </div>
+
+        <label for="redTeamTopChampion">Red Team's Top Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamTopChampion" placeholder="Enter Red Team's Top Champion" name="redTeamTopChampion">
+        </div>
+        
+        <label for="redTeamMid">Red Team's Mid</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamMid" placeholder="Enter Player For Red Team's Middle" name="redTeamMid">
+        </div>
+
+        <label for="redTeamMidChampion">Red Team's Mid Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamMidChampion" placeholder="Enter Red Team's Middle Champion" name="redTeamMidChampion">
+        </div>
+
+        <label for="redTeamJungle">Red Team's Jungler</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamJungle" placeholder="Enter Player For Red Team's Jungler" name="redTeamJungle">
+        </div>
+
+        <label for="redTeamJungleChampion">Red Team's Jungler Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamJungleChampion" placeholder="Enter Red Team's Jungler Champion" name="redTeamJungleChampion">
+        </div>
+
+        <label for="redTeamADC">Red Team's ADC</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamADC" placeholder="Enter Player For Red Team's ADC" name="redTeamADC">
+        </div>
+
+        <label for="redTeamADCChampion">Red Team's ADC Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamADCChampion" placeholder="Enter Red Team's ADC Champion" name="redTeamADCChampion">
+        </div>
+
+        <label for="redTeamSupport">Red Team's Support</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamSupport" placeholder="Enter Player For Red Team's Support" name="redTeamSupport">
+        </div>
+
+        <label for="redTeamSupportChampion">Red Team's Support Champion</label>
+        <div class="form-group">
+          <input type="text" class="form-control col-lg-9" id="redTeamSupportChampion" placeholder="Enter Red Team's Support Champion" name="redTeamSupportChampion">
+        </div>
+
+        <button type="submit" id ="loadChampBtn" class="btn btn-primary" style = "margin-bottom: 10px">Confirm Update Match</button> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Viewing UpdateMatch -->
+<div class="modal fade" id="viewMatchDeleteModel" tabindex="-1" role="dialog" aria-labelledby="viewMatchDelete" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div style ="margin-left: 10px">
+      <h3> Enter Game ID Match To Delete</h3>
+      <label for="GameID">Game ID</label>
+      <div class="form-group">
+        <input type="text" class="form-control col-lg-9" id="GameID" placeholder="Enter Your Game ID" name="GameID">
+      </div>
+
+      <button type="submit" id ="loadChampBtn" class="btn btn-primary" style = "margin-bottom: 10px">Confirm Delete Match</button> 
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+  <script>
+  $(document).ready(function() {
+    $('#loadChampBtn').click(function() {
+      $.ajax({
+        url: '/api/champions',
+        method: 'GET',
+        success: function(data) {
+          var rows = '';
+          data.forEach(function(Champion, index) {
+            rows += `<tr>
+                       <td>${Champion.Champion}</td> // keep as attr name
+			<td>${Champion.Class}</td>
+			<td>${Champion.Role}</td> 
+			<td>${Champion.Winrate}%</td>	
+                     </tr>`;
+          });
+          $('#championBody').html(rows);
+        },
+        error: function() {
+          alert('Failed to load champion data.');
+        }
+      });
+    });
+  });
+
+  </script>
+</body>
+</html>

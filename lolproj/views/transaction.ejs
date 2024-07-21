@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lol Stat Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<!--script to search players-->
+<script>
+  $(document).ready(function(){
+      $("#skilledSkinsSearch").click(function(){
+            $.ajax({
+                method: "GET",
+                url: "/api/skilled_skins",
+                success: function(response){
+                    console.log("Success: ", response);
+                    var rows = '';
+                    response.forEach(function(jsonInfo, index) {
+                    rows += `
+                            <tr style = "width: 425px; height: 50px;">
+                                <td>${jsonInfo.SkinName}</td> // keep as attr name
+                                <td>${jsonInfo.Rarity}</td>
+                                <td>${jsonInfo.RPCost} RP</td> 
+                                </tr>`;
+    
+                    });
+                    $('#dataBody').html(rows);
+                },
+                error: function() {
+                    console.log("Failed to load skin data...");
+                    alert("Failed to get skin data");
+                }
+            });
+      });
+  });
+</script>
+<body style ='background-color:#091428;'>
+  <div class="container-fluid mt-4">
+	<h1 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> League of Legends Metrics Viewer </h1>
+
+    <div class="card" style="background-color: #0A1428; border-top-color: #1E282D;">
+      <div class="card-body">
+      
+        <a href="/" type="button" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort;  font-size: 120%">
+            Home
+        </a>
+        <!-- Button to Load Champions -->
+        <a href = "/champion_stats" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120% ">
+            Champions
+        </a>
+        <a href="/skin_metrics" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Skin Metrics
+        </a>
+        <a href="/over_certain_win" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Winrate Metrics
+        </a>
+        <a href="/transaction" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Popular Skins
+        </a>
+        <a href="/misc" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+            Misc
+        </a>
+        <a href="/dev_tools" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-size: 120%; font-family: Beaufort; float: right;">
+            Dev Tools
+        </a>
+      </div>
+
+    </div>
+    <div style = "width: 700px; height: 250px; margin: auto; margin-top: 10%; justify-content: center; align-content:  center;">
+        <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center; padding-top: 20px; justify-content: center; align-content: center;'> Skin(s) Suggestion: </h3>
+          <div class = "form-inline" style = "margin-left: 25%;">
+            <button id="skilledSkinsSearch" type="button" class="btn btn-info" style = "width: 25%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; justify-content: center; align-content: center; margin-left: 20%; margin-top: 5%;">Search</button>
+         </div>
+        
+    </div>
+
+    <div style = "width: 100%; height: 650px; margin: auto">
+      
+      <div class="form-inline" style = "width: 100%; height: 100%; flex-direction: row;">
+        
+        <div class = "modal-body" style = "background-color: #091428; width: 425px; height: 550px; margin-left: 2%; margin-right: 5%; border-top-style: solid; border-top-width: 2px; border-top-color: #C8AA6E; border-radius: 20px">
+          <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'>RESULTS</h3>
+          <table class="table" style="color: #F0E6D2; font-family: Beaufort;">
+            <thead>
+              <tr>
+                <th scope="col">SkinName</th>
+                <th scope="col"> Rarity</th>
+                <th scope="col"> RPCost</th>          
+              </tr>
+            </thead>
+            <tbody id="dataBody">
+              <!-- Item rows will be inserted here -->
+            </tbody>
+          </table>
+        </div>
+        
+ 
+      </div>
+      
+      
+  </div>
+
+
+
+    <!-- Modal for Viewing Champions -->
+    <div class="modal fade" id="viewChampionModel" tabindex="-1" role="dialog" aria-labelledby="viewChampionModelLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="viewChampionModelLabel">Champion Records</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Champion</th>
+                  <th scope="col"> Class </th>
+                  <th scope="col"> Role </th>
+                  <th scope="col"> Winrate </th>
+                </tr>
+              </thead>
+              <tbody id="championBody">
+                <!-- Champions rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

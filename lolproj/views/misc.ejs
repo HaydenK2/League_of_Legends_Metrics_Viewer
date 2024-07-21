@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lol Stat Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<script>
+  $(document).ready(function() {
+    $('#loadChampBtn').click(function() {
+      $.ajax({
+        url: '/api/champions',
+        method: 'GET',
+        success: function(data) {
+          var rows = '';
+          data.forEach(function(Champion, index) {
+            rows += `<tr>
+                       <td>${Champion.Champion}</td> // keep as attr name
+			<td>${Champion.Class}</td>
+			<td>${Champion.Role}</td> 
+			<td>${Champion.Winrate}%</td>	
+                     </tr>`;
+          });
+          $('#championBody').html(rows);
+        },
+        error: function() {
+          alert('Failed to load champion data.');
+        }
+      });
+    });
+  });
+  function displayItemSkinEntries() {
+    console.log("load skin and item entries");
+    let heightItems = 550;
+    let heightSkins = 550;
+    document.getElementById("itemSect").style.height = "550px";
+    document.getElementById("skinSect").style.height = "550px";
+    $.ajax({
+        url: '/api/items',
+        method: 'GET',
+        success: function(data) {
+          
+          var rows = '';
+          data.forEach(function(Item, index) {
+            rows += `<tr>
+                       <td>${Item.ItemName}</td> // keep as attr name
+                        <td>${Item.Cost}</td>
+                        <td>${Item.Sell}</td> 
+                        <td>${Item.AttackDamage}</td>	
+                        <td>${Item.AttackSpeed*100}%</td>	
+                        <td>${Item.CriticalHit*100}%</td>	
+                        <td>${Item.ArmorPenetration}</td>	
+                        <td>${Item.LifeSteal*100}%</td>	
+                        <td>${Item.AbilityPower}</td>	
+                        <td>${Item.AbilityHaste}</td>	
+                     </tr>`;
+            
+            heightItems += 50;
+           
+            
+          });
+          $('#itemBody').html(rows);
+  
+          // document.getElementById("itemSect").style.height = heightStr;
+        },
+        error: function() {
+          alert('Failed to load Item data.');
+          document.getElementById("itemSect").style.height = "550px";
+        }
+      });
+      $.ajax({
+        url: '/api/lol_skins',
+        method: 'GET',
+        
+        success: function(data) {
+          
+          var rows = '';
+          data.forEach(function(Skin, index) {
+            
+            rows += `<tr>
+                       <td>${Skin.SkinName}</td> // keep as attr name
+                      <td>${Skin.Champion}</td>
+                      <td>${Skin.Rarity}</td> 
+                      <td>${Skin.RPCost} RP</td>	
+                     </tr>`;
+            heightSkins += 50;
+                     
+          });
+          $('#skinBody').html(rows);
+          let heightStr = toString(heightSkins) + "px";
+          
+        },
+        error: function() {
+          alert('Failed to load Skin data.');
+          document.getElementById("skinSect").style.height = "550px";
+        }
+      });
+      // console.log("heightItems is ", heightItems);
+      // console.log("heightSkins is ", heightSkins);
+      // if (heightItems > heightSkins) {
+      //   let heightStr = toString(heightItems) + "px";
+      //   document.getElementById("itemSect").style.height = heightStr;
+      //   document.getElementById("skinSect").style.height = heightStr;
+      // } else {
+      //   let heightStr = toString(heightSkins) + "px";
+      //   document.getElementById("itemSect").style.height = heightStr;
+      //   document.getElementById("skinSect").style.height = heightStr;
+      // }
+  }
+
+  </script>
+<body style ='background-color:#091428;' onload = "displayItemSkinEntries()">
+
+  <div class="container-fluid mt-4">
+	<h1 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> League of Legends Metrics Viewer </h1>
+
+    <div class="card" style="background-color: #0A1428; border-top-color: #1E282D;">
+      <div class="card-body">
+      
+        <a href="/" type="button" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort;  font-size: 120%">
+            Home
+        </a>
+        <!-- Button to Load Champions -->
+        <a href = "/champion_stats" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120% ">
+            Champions
+        </a>
+        <a href="/skin_metrics" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Skin Metrics
+        </a>
+        <a href="/over_certain_win" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Winrate Metrics
+        </a>
+        <a href="/transaction" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+          Popular Skins
+        </a>
+        <a href="/misc" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-family: Beaufort; font-size: 120%">
+            Misc
+        </a>
+        <a href="/dev_tools" class="btn btn-lg	 btn-info mt-3" style = "width: 12%; background-color: #091428; color: #F0E6D2; font-size: 120%; font-family: Beaufort; float: right;">
+            Dev Tools
+        </a>
+      </div>
+
+  </div>
+    <div style = "width: 100%; height: 650px; margin: auto">
+      
+        <div class="form-inline" style = "width: 100%; height: 100%; flex-direction: row;">
+          
+          <div id = "itemSect" class = "modal-body" style = "background-color: #091428; width: 425px; margin-left: 2%; margin-right: 5%; border-top-style: solid; border-top-width: 2px; border-top-color: #C8AA6E; border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> Items </h3>
+            <table class="table" style="color: #F0E6D2; font-family: Beaufort;">
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col"> Cost </th>
+                  <th scope="col"> Sell </th>
+                  <th scope="col"> Attack Damage </th>
+                  <th scope="col"> Attack Speed </th>
+                  <th scope="col"> Critical Hit </th>
+                  <th scope="col"> Armor Penetration </th>
+                  <th scope="col"> Life Steal </th>
+                  <th scope="col"> Ability Power </th>
+                  <th scope="col"> Ability Haste </th>
+                </tr>
+              </thead>
+              <tbody id="itemBody">
+                <!-- Item rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+          <div id = "skinSect" class = "modal-body" style = "background-color: #091428; width: 100px; margin-left: 2%; margin-right: 5%; border-top-style: solid; border-top-width: 2px; border-top-color: #C8AA6E; border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> Skins </h3>
+            <table class="table" style="color: #F0E6D2; font-family: Beaufort;">
+              <thead>
+                <tr>
+                  <th scope="col">Skin</th>
+                  <th scope="col"> Champion</th>
+                  <th scope="col"> Rarity </th>
+                  <th scope="col"> RP Cost </th>
+                </tr>
+              </thead>
+              <tbody id="skinBody">
+                <!-- Item rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+   
+        </div>
+        
+        
+    </div>
+
+
+
+    <!-- Modal for Viewing Champions -->
+    <div class="modal fade" id="viewChampionModel" tabindex="-1" role="dialog" aria-labelledby="viewChampionModelLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="viewChampionModelLabel">Champion Records</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Champion</th>
+                  <th scope="col"> Class </th>
+                  <th scope="col"> Role </th>
+                  <th scope="col"> Winrate </th>
+                </tr>
+              </thead>
+              <tbody id="championBody">
+                <!-- Champions rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

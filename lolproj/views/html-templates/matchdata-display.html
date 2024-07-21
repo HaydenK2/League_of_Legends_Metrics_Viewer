@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lol Stat Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body style ='background-color:#091428;'>
+  <div class="container-fluid mt-4">
+	<h1 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> WELCOME TO LOLSV </h1>
+
+    <div class="card" style="background-color: #0A1428; border-top-color: #1E282D;">
+      <div class="card-body">
+      
+        <a href="front.html" type="button" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%">
+            Home
+        </a>
+        <!-- Button to Load Champions -->
+        <a class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150% " id="loadChampBtn" data-toggle="modal" data-target="#viewChampionModel">
+            Champions
+        </a>
+        <a href="misc.html" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%">
+            Misc
+        </a>
+        <a  href="dev_tools.html" class="btn btn-lg	 btn-info mt-3" style = "width: 15%; background-color: #091428; color: #F0E6D2; font-size: 150%; float: right;">
+            Dev Tools
+        </a>
+      </div>
+  
+    </div>
+    <div style = "background-color: white; width: 100%; height: 650px; margin: auto">
+      
+        <div class="form-inline" style = "background-color: blue; width: 100%; height: 100%; flex-direction: row;">
+          
+          <div class = "modal-body" style = "background-color: #091428; width: 425px; height: 550px; margin-left: 2%; margin-right: 5%; border-color: #785A28; border-radius: 20px">
+            <h3 style = 'color: #F0E6D2; font-family: Beaufort; font-weight: bold; text-align: center;'> RESULTS </h3>
+            <table class="table" style="color: #F0E6D2; font-family: Beaufort;">
+              <thead>
+                <tr>
+                  <th scope="col">Game ID</th>
+                  <th scope="col"> Winner </th>
+                  <th scope="col"> Blue Team Top </th>
+                  <th scope="col"> Blue Team Top Champion </th>
+                  <th scope="col"> Blue Team Mid </th>
+                  <th scope="col"> Blue Team Mid Champion </th>
+                  <th scope="col"> Blue Team Jungle </th>
+                  <th scope="col"> Blue Team Jungle Champion </th>
+                  <th scope="col"> Blue Team ADC </th>
+                  <th scope="col"> Blue Team ADC Champion </th>
+                  <th scope="col"> Blue Team Support </th>
+                  <th scope="col"> Blue Team Support Champion </th>
+                </tr>
+              </thead>
+              <tbody id="matchDataBody">
+                <!-- Item rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+          
+   
+        </div>
+        
+        
+    </div>
+
+
+
+    <!-- Modal for Viewing Champions -->
+    <div class="modal fade" id="viewChampionModel" tabindex="-1" role="dialog" aria-labelledby="viewChampionModelLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="viewChampionModelLabel">Champion Records</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Champion</th>
+                  <th scope="col"> Class </th>
+                  <th scope="col"> Role </th>
+                  <th scope="col"> Winrate </th>
+                </tr>
+              </thead>
+              <tbody id="championBody">
+                <!-- Champions rows will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  $(document).ready(function() {
+    $('#loadChampBtn').click(function() {
+      $.ajax({
+        url: '/api/champions',
+        method: 'GET',
+        success: function(data) {
+          var rows = '';
+          data.forEach(function(Champion, index) {
+            rows += `<tr>
+                       <td>${Champion.Champion}</td> // keep as attr name
+			<td>${Champion.Class}</td>
+			<td>${Champion.Role}</td> 
+			<td>${Champion.Winrate}%</td>	
+                     </tr>`;
+          });
+          $('#championBody').html(rows);
+        },
+        error: function() {
+          alert('Failed to load champion data.');
+        }
+      });
+    });
+  });
+
+  </script>
+</body>
+</html>
